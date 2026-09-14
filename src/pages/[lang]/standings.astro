@@ -11,7 +11,11 @@ const lang = Astro.params.lang as Lang;
 const labels: StandingsLabels = {
   team: t(lang, 'standings.team'), w: t(lang, 'standings.w'), l: t(lang, 'standings.l'), t: t(lang, 'standings.t'),
   pct: t(lang, 'standings.pct'), pf: t(lang, 'standings.pf'), pa: t(lang, 'standings.pa'),
-  diff: t(lang, 'standings.diff'), strk: t(lang, 'standings.strk'),
+  diff: t(lang, 'standings.diff'), strk: t(lang, 'standings.strk'), seed: t(lang, 'standings.seed'),
+  divisions: {
+    East: t(lang, 'standings.east'), West: t(lang, 'standings.west'),
+    North: t(lang, 'standings.north'), South: t(lang, 'standings.south'),
+  },
 };
 const standings = await safely(() => fetchStandings());
 const builtAt = new Date().toISOString();
