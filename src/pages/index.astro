@@ -1,12 +1,13 @@
 ---
 // Root: the site lives under /es. Vercel also redirects / at the edge; this covers `astro preview`.
+import { t } from '../i18n/ui';
 ---
 <html lang="es">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>El Ovoide · NFL</title>
-    <meta name="description" content="Blog de NFL en español: posiciones, resultados, pronósticos, survivor y memes." />
+    <meta name="description" content={t('es', 'site.tagline')} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href={new URL('/es', Astro.site)} />
     <meta http-equiv="refresh" content="0; url=/es" />
