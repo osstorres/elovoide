@@ -4,7 +4,7 @@ export const langs = Object.keys(languages) as Lang[];
 
 export const ui = {
   es: {
-    'site.tagline': 'NFL con acento: posiciones, resultados, pronósticos y memes.',
+    'site.tagline': 'Blog personal de NFL: posiciones, resultados, pronósticos simples y reporte de lesiones.',
     'nav.home': 'Inicio',
     'nav.standings': 'Posiciones',
     'nav.scores': 'Resultados',
