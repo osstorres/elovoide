@@ -79,7 +79,7 @@ const memes = defineCollection({
 /**
  * Injury report before each week. One Markdown file per week:
  *   src/content/injuries/2026-w01.md
- * Written by hand from a video transcript (see scripts/README.md).
+ * Written by hand, in plain paraphrased Spanish (see scripts/README.md).
  * `away` / `home` hold short notes for each team; leave empty for a healthy team.
  */
 const injuries = defineCollection({
@@ -90,7 +90,6 @@ const injuries = defineCollection({
     week: z.number().int().min(1).max(22),
     published: z.coerce.date(),
     draft: z.boolean().default(false),
-    source: z.object({ name: z.string(), url: z.string().url() }).optional(),
     games: z
       .array(
         z.object({

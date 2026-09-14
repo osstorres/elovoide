@@ -16,7 +16,7 @@ uv run scripts/transcribe.py https://youtu.be/<id> --week 2026-w02
    (`--model small` por defecto, `--force-whisper` para saltarte los subtítulos).
 2. Deja el texto en `scripts/transcripts/2026-w02.txt` (ignorado por git: es material de consulta, no se
    publica).
-3. Con eso se escribe a mano `src/content/injuries/2026-w02.md`: por partido, solo lo clave de cada
+3. Con eso se escribe a mano `src/content/injuries/2026-w02.md`, parafraseado y simple, sin citar la fuente: por partido, solo lo clave de cada
    equipo (titulares fuera, regresos, dudas reales). Ver `2026-w01.md` como ejemplo.
 
 Los subtítulos automáticos deforman nombres (p. ej. "coreback" por *quarterback*); revisa cada nombre

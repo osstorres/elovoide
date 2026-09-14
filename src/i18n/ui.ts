@@ -79,7 +79,6 @@ export const ui = {
     'injuries.empty': 'Aún no hay reportes de lesiones.',
     'injuries.back': 'Todos los reportes',
     'injuries.games': 'partidos',
-    'injuries.source': 'Fuente',
     'survivor.title': 'Survivor',
     'survivor.intro': 'Reglas: elegimos un equipo que gane cada semana y no podemos repetirlo en toda la temporada. Una derrota y quedamos fuera.',
     'survivor.status.alive': 'Seguimos vivos',
