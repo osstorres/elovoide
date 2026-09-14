@@ -5,6 +5,11 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/", "destination": "/es", "permanent": false },
+    { "source": "/en", "destination": "/es", "permanent": true },
+    { "source": "/en/:path*", "destination": "/es/:path*", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",

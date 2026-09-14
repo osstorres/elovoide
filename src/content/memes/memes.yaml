@@ -3,19 +3,11 @@
   image: ./parlay.png
   date: 2026-09-14
   week: 1
-  caption:
-    es: Todos tuvimos ese parlay "seguro" de la Semana 1.
-    en: We all had that "can't miss" Week 1 parlay.
-  alt:
-    es: Balón de americano con el texto "Mi parlay el sábado / Mi parlay el lunes"
-    en: Football with the text "My parlay on Saturday / My parlay on Monday"
+  caption: Todos tuvimos ese parlay "seguro" de la Semana 1.
+  alt: Balón de americano con el texto "Mi parlay el sábado / Mi parlay el lunes"
 - id: rebote
   image: ./rebote.png
   date: 2026-09-13
   week: 1
-  caption:
-    es: El ovoide rebota raro… hasta que rebota para ti.
-    en: The ball bounces weird… until it bounces your way.
-  alt:
-    es: Balón de americano con el texto "Cuando el balón rebota para tu equipo"
-    en: Football with the text "When the ball bounces your team's way"
+  caption: El ovoide rebota raro… hasta que rebota para ti.
+  alt: Balón de americano con el texto "Cuando el balón rebota para tu equipo"

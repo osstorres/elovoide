@@ -90,7 +90,7 @@ const sections = [
               <img src={logoFor(lastSurvivor.team)} alt="" width="30" height="30" loading="lazy" />
               {t(lang, 'picks.week')} {lastSurvivor.week}: {teamName(lastSurvivor.team)}
             </h3>
-            <p>{lastSurvivor.why[lang]}</p>
+            <p>{lastSurvivor.why}</p>
             <span class="muted">{t(lang, 'picks.record')} {recordText(survivor.record)}</span>
           </a>
         )}
@@ -107,8 +107,8 @@ const sections = [
         <div class="grid">
           {memes.slice(0, 3).map((m) => (
             <figure class="card meme">
-              <Image src={m.data.image} alt={m.data.alt[lang]} widths={[400, 800]} sizes="(min-width: 980px) 360px, 100vw" />
-              <figcaption><span>{m.data.caption[lang]}</span></figcaption>
+              <Image src={m.data.image} alt={m.data.alt} widths={[400, 800]} sizes="(min-width: 980px) 360px, 100vw" />
+              <figcaption><span>{m.data.caption}</span></figcaption>
             </figure>
           ))}
         </div>
