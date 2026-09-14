@@ -24,14 +24,14 @@ const pct = decided ? Math.round((all.win / decided) * 100) : 0;
 
     {entries.length > 0 && (
       <div class="stats-row">
-        <div class="card stat"><div class="label">{t(lang, 'picks.record')}</div><div class="record-big">{recordText(all)}</div></div>
-        <div class="card stat"><div class="label">%</div><div class="record-big">{pct}%</div></div>
-        <div class="card stat"><div class="label">{t(lang, 'picks.pending')}</div><div class="record-big">{all.pending}</div></div>
+        <div class="stat"><div class="label">{t(lang, 'picks.record')}</div><div class="record-big">{recordText(all)}</div></div>
+        <div class="stat"><div class="label">%</div><div class="record-big">{pct}%</div></div>
+        <div class="stat"><div class="label">{t(lang, 'picks.pending')}</div><div class="record-big">{all.pending}</div></div>
       </div>
     )}
 
     {entries.length ? (
-      <div class="grid">{entries.map((entry) => <WeekCard lang={lang} entry={entry} />)}</div>
+      <div>{entries.map((entry) => <WeekCard lang={lang} entry={entry} />)}</div>
     ) : (
       <p class="empty">{t(lang, 'picks.empty')}</p>
     )}

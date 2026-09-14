@@ -21,7 +21,7 @@ const fmt = new Intl.DateTimeFormat(localeOf(lang), { dateStyle: 'medium', timeZ
     {memes.length ? (
       <div class="memes">
         {memes.map((m) => (
-          <figure class="card meme">
+          <figure class="meme">
             <Image src={m.data.image} alt={m.data.alt} widths={[400, 800]} sizes="(min-width: 980px) 360px, (min-width: 640px) 50vw, 100vw" />
             <figcaption>
               <span>{m.data.caption}</span>

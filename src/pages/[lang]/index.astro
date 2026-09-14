@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
-import Icon from '../../components/Icon.astro';
 import WeekCard from '../../components/WeekCard.astro';
 import { fetchScoreboard, logoFor, safely } from '../../lib/espn';
 import { scoresHtml } from '../../lib/render';
@@ -25,40 +24,12 @@ const featured = sb
   ? { ...sb, games: [...sb.games].sort((a, b) => (a.state === 'in' ? -1 : b.state === 'in' ? 1 : 0)).slice(0, 6) }
   : null;
 const lastSurvivor = survivor.rows.at(-1);
-
-const sections = [
-  { href: 'standings', icon: 'standings', key: 'nav.standings', desc: 'section.standings.desc' },
-  { href: 'scores', icon: 'scores', key: 'nav.scores', desc: 'section.scores.desc' },
-  { href: 'picks', icon: 'picks', key: 'nav.picks', desc: 'section.picks.desc' },
-  { href: 'survivor', icon: 'survivor', key: 'nav.survivor', desc: 'section.survivor.desc' },
-  { href: 'memes', icon: 'memes', key: 'nav.memes', desc: 'section.memes.desc' },
-] as const;
 ---
 <Base lang={lang}>
-  <section class="hero">
-    <div class="container">
-      <span class="kicker">{t(lang, 'home.hero.kicker')}{sb?.season ? ` · ${sb.season}` : ''}</span>
+  <div class="container">
+    <section class="intro">
       <h1>{t(lang, 'home.hero.title')}</h1>
       <p>{t(lang, 'home.hero.body')}</p>
-      <div class="hero-actions">
-        <a class="btn btn-light" href={`/${lang}/picks`}>{t(lang, 'home.cta.picks')} <Icon name="arrow" class="arrow" /></a>
-        <a class="btn btn-ghost" href={`/${lang}/scores`}>{t(lang, 'home.cta.scores')}</a>
-      </div>
-    </div>
-  </section>
-
-  <div class="container">
-    <section class="section" aria-labelledby="sections-title">
-      <h2 id="sections-title" class="sr-only">{t(lang, 'home.sections')}</h2>
-      <div class="grid">
-        {sections.map((s) => (
-          <a class="card nav-card" href={`/${lang}/${s.href}`}>
-            <span class="ico"><Icon name={s.icon} /></span>
-            <h3>{t(lang, s.key)}</h3>
-            <p>{t(lang, s.desc)}</p>
-          </a>
-        ))}
-      </div>
     </section>
 
     {featured && (
@@ -79,18 +50,17 @@ const sections = [
       <div class="grid">
         {picks.slice(0, 2).map((entry) => <WeekCard lang={lang} entry={entry} />)}
         {lastSurvivor && (
-          <a class="card week-card" href={`/${lang}/survivor`}>
+          <a class="week-card" href={`/${lang}/survivor`}>
             <div class="row">
-              <span class="badge badge-final">Survivor · {survivor.season}</span>
+              <span class="badge">Survivor · {survivor.season}</span>
               <span class={`badge ${survivor.alive ? 'badge-win' : 'badge-loss'}`}>
                 {t(lang, survivor.alive ? 'survivor.status.alive' : 'survivor.status.out')}
               </span>
             </div>
             <h3 class="tl-team">
-              <img src={logoFor(lastSurvivor.team)} alt="" width="30" height="30" loading="lazy" />
+              <img src={logoFor(lastSurvivor.team)} alt="" width="24" height="24" loading="lazy" />
               {t(lang, 'picks.week')} {lastSurvivor.week}: {teamName(lastSurvivor.team)}
             </h3>
-            <p>{lastSurvivor.why}</p>
             <span class="muted">{t(lang, 'picks.record')} {recordText(survivor.record)}</span>
           </a>
         )}
@@ -104,9 +74,9 @@ const sections = [
           <h2>{t(lang, 'home.latestMemes')}</h2>
           <a href={`/${lang}/memes`}>{t(lang, 'nav.memes')} →</a>
         </div>
-        <div class="grid">
+        <div class="memes">
           {memes.slice(0, 3).map((m) => (
-            <figure class="card meme">
+            <figure class="meme">
               <Image src={m.data.image} alt={m.data.alt} widths={[400, 800]} sizes="(min-width: 980px) 360px, 100vw" />
               <figcaption><span>{m.data.caption}</span></figcaption>
             </figure>

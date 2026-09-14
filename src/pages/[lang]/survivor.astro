@@ -22,7 +22,7 @@ const { season, rows, alive, record } = await getSurvivor();
 
     {rows.length ? (
       <>
-        <div class="card survivor-status">
+        <div class="survivor-status">
           <span class={`status-pill ${alive ? 'status-alive' : 'status-out'}`}>
             {t(lang, alive ? 'survivor.status.alive' : 'survivor.status.out')}
           </span>
@@ -40,15 +40,14 @@ const { season, rows, alive, record } = await getSurvivor();
 
         <ol class="timeline" reversed>
           {[...rows].reverse().map((r) => (
-            <li class="card tl-item">
+            <li class="tl-item">
               <div class="tl-week">
-                <div class="l">{t(lang, 'picks.week')}</div>
-                <div class="n">{r.week}</div>
+                {t(lang, 'picks.week')} <span class="n">{r.week}</span>
               </div>
               <div class="tl-main">
                 <div class="tl-top">
                   <span class="tl-team">
-                    <img src={logoFor(r.team)} alt="" width="30" height="30" loading="lazy" />
+                    <img src={logoFor(r.team)} alt="" width="24" height="24" loading="lazy" />
                     {teamName(r.team)}
                   </span>
                   <span class="muted">
@@ -56,7 +55,7 @@ const { season, rows, alive, record } = await getSurvivor();
                   </span>
                   <OutcomeBadge lang={lang} outcome={r.outcome} />
                 </div>
-                <p><strong>{t(lang, 'survivor.why')}:</strong> {r.why}</p>
+                {r.why ? <p>{r.why}</p> : <p class="placeholder">{t(lang, 'picks.analysisPending')}</p>}
               </div>
             </li>
           ))}

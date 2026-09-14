@@ -12,8 +12,6 @@ export const ui = {
     'nav.survivor': 'Survivor',
     'nav.memes': 'Memes',
     'nav.menu': 'Menú',
-    'theme.toggle': 'Cambiar tema claro/oscuro',
-    'home.hero.kicker': 'Blog de NFL',
     'home.hero.title': 'Todo lo que rebota en la NFL',
     'home.hero.body':
       'Pronósticos semanales con análisis y datos, nuestro camino en el Survivor, posiciones y resultados al día, y los memes que dejó la jornada.',
@@ -61,6 +59,7 @@ export const ui = {
     'picks.pick': 'Pick',
     'picks.confidence': 'Confianza',
     'picks.analysis': 'Análisis',
+    'picks.analysisPending': 'Análisis próximamente.',
     'picks.context': 'Contexto',
     'picks.data': 'Datos clave',
     'picks.result': 'Resultado',

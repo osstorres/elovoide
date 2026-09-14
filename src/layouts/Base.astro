@@ -1,7 +1,5 @@
 ---
-import '@fontsource-variable/inter';
-import '@fontsource/barlow-condensed/600.css';
-import '@fontsource/barlow-condensed/700.css';
+import '@fontsource-variable/libre-franklin';
 import '../styles/global.css';
 import Icon from '../components/Icon.astro';
 import Logo from '../components/Logo.astro';
@@ -35,14 +33,13 @@ const isCurrent = (href: string) => (href === `/${lang}` ? path === href : path 
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta name="theme-color" content="#0b2a5b" />
+    <meta name="theme-color" content="#faf9f6" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="es_MX" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <script is:inline src="/theme.js"></script>
   </head>
   <body>
     <a class="skip" href="#main">Saltar al contenido</a>
@@ -57,14 +54,9 @@ const isCurrent = (href: string) => (href === `/${lang}` ? path === href : path 
             {nav.map((n) => <li><a href={n.href} aria-current={isCurrent(n.href) ? 'page' : undefined}>{t(lang, n.key)}</a></li>)}
           </ul>
         </nav>
-        <div class="tools">
-          <button class="icon-btn theme-btn" type="button" aria-label={t(lang, 'theme.toggle')} data-theme-toggle>
-            <Icon name="moon" class="moon" /><Icon name="sun" class="sun" />
-          </button>
-          <button class="icon-btn menu-btn" type="button" aria-label={t(lang, 'nav.menu')} aria-expanded="false" aria-controls="mobile-nav" data-menu-toggle>
-            <Icon name="menu" />
-          </button>
-        </div>
+        <button class="menu-btn" type="button" aria-label={t(lang, 'nav.menu')} aria-expanded="false" aria-controls="mobile-nav" data-menu-toggle>
+          <Icon name="menu" />
+        </button>
       </div>
       <nav id="mobile-nav" class="mobile-nav" aria-label={t(lang, 'nav.menu')} hidden>
         <ul class="container">
@@ -79,23 +71,12 @@ const isCurrent = (href: string) => (href === `/${lang}` ? path === href : path 
 
     <footer class="site-footer">
       <div class="container footer-row">
-        <div>
-          <strong>El Ovoide</strong> · {t(lang, 'footer.note')}<br />
-          <span>{t(lang, 'data.source')} · © {new Date().getFullYear()}</span>
-        </div>
-        <ul>
-          {nav.slice(1).map((n) => <li><a href={n.href}>{t(lang, n.key)}</a></li>)}
-        </ul>
+        <span>El Ovoide · {t(lang, 'footer.note')}</span>
+        <span>{t(lang, 'data.source')} · © {new Date().getFullYear()}</span>
       </div>
     </footer>
 
     <script>
-      const root = document.documentElement;
-      document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
-        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
-        root.dataset.theme = next;
-        try { localStorage.setItem('theme', next); } catch {}
-      });
       const menuBtn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
       const menu = document.getElementById('mobile-nav');
       menuBtn?.addEventListener('click', () => {
