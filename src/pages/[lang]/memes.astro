@@ -1,0 +1,39 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { getMemes } from '../../lib/content';
+import { langPaths } from '../../lib/paths';
+import { localeOf, t, type Lang } from '../../i18n/ui';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const memes = await getMemes();
+const fmt = new Intl.DateTimeFormat(localeOf(lang), { dateStyle: 'medium', timeZone: 'UTC' });
+---
+<Base lang={lang} title={t(lang, 'memes.title')} description={t(lang, 'section.memes.desc')}>
+  <div class="container">
+    <header class="page-head">
+      <span class="kicker">El Ovoide</span>
+      <h1>{t(lang, 'memes.title')}</h1>
+      <p>{t(lang, 'memes.intro')}</p>
+    </header>
+
+    {memes.length ? (
+      <div class="memes">
+        {memes.map((m) => (
+          <figure class="card meme">
+            <Image src={m.data.image} alt={m.data.alt[lang]} widths={[400, 800]} sizes="(min-width: 980px) 360px, (min-width: 640px) 50vw, 100vw" />
+            <figcaption>
+              <span>{m.data.caption[lang]}</span>
+              <span class="muted">
+                {fmt.format(m.data.date)}{m.data.week ? ` · ${t(lang, 'picks.week')} ${m.data.week}` : ''}
+              </span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    ) : (
+      <p class="empty">{t(lang, 'memes.empty')}</p>
+    )}
+  </div>
+</Base>

@@ -1,0 +1,60 @@
+---
+import OutcomeBadge from './OutcomeBadge.astro';
+import { logoFor } from '../lib/espn';
+import { teamName } from '../lib/teams';
+import type { ResolvedGame } from '../lib/content';
+import { t, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; game: ResolvedGame }
+const { lang, game: g } = Astro.props;
+const hasScore = g.awayScore !== null && g.homeScore !== null;
+---
+<article class="card pick">
+  <header class="pick-head">
+    <div class="matchup">
+      <img src={logoFor(g.away)} alt="" width="36" height="36" loading="lazy" />
+      <span>{g.away}{hasScore && <span class="score"> {g.awayScore}</span>}</span>
+      <span class="at">@</span>
+      <span>{hasScore && <span class="score">{g.homeScore} </span>}{g.home}</span>
+      <img src={logoFor(g.home)} alt="" width="36" height="36" loading="lazy" />
+    </div>
+    <OutcomeBadge lang={lang} outcome={g.outcome} />
+  </header>
+  <div class="pick-body">
+    <div class="pick-choice">
+      <span class="chosen">
+        <img src={logoFor(g.pick)} alt="" width="26" height="26" loading="lazy" />
+        {t(lang, 'picks.pick')}: {teamName(g.pick)}
+      </span>
+      {g.spread && <span class="muted">{t(lang, 'picks.spread')}: <strong>{g.spread}</strong></span>}
+      <span class="muted">
+        {t(lang, 'picks.confidence')}:
+        <span class="dots" role="img" aria-label={`${g.confidence}/5`}>
+          {[1, 2, 3, 4, 5].map((n) => <i class={n <= g.confidence ? 'on' : ''} />)}
+        </span>
+      </span>
+    </div>
+    <div>
+      <h4>{t(lang, 'picks.analysis')}</h4>
+      <p>{g.analysis}</p>
+    </div>
+    {g.context && (
+      <div>
+        <h4>{t(lang, 'picks.context')}</h4>
+        <p>{g.context}</p>
+      </div>
+    )}
+    {g.data.length > 0 && (
+      <div>
+        <h4>{t(lang, 'picks.data')}</h4>
+        <ul class="data-list">{g.data.map((d) => <li>{d}</li>)}</ul>
+      </div>
+    )}
+    {g.note && (
+      <div>
+        <h4>{t(lang, 'picks.result')}</h4>
+        <p class="result-note">{g.note}</p>
+      </div>
+    )}
+  </div>
+</article>

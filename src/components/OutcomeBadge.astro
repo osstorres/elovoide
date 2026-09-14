@@ -1,0 +1,7 @@
+---
+import { t, type Lang } from '../i18n/ui';
+import type { Outcome } from '../lib/results';
+interface Props { lang: Lang; outcome: Outcome }
+const { lang, outcome } = Astro.props;
+---
+<span class={`badge badge-${outcome}`}>{t(lang, `picks.${outcome}`)}</span>

@@ -1,0 +1,113 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/700.css';
+import '../styles/global.css';
+import Icon from '../components/Icon.astro';
+import Logo from '../components/Logo.astro';
+import { languages, langs, swapLangPath, t, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+}
+const { lang, title, description = t(lang, 'site.tagline') } = Astro.props;
+const fullTitle = title ? `${title} · El Ovoide` : 'El Ovoide · NFL';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const other = langs.find((l) => l !== lang)!;
+const canonical = new URL(path, Astro.site);
+
+const nav = [
+  { href: `/${lang}`, key: 'nav.home' },
+  { href: `/${lang}/standings`, key: 'nav.standings' },
+  { href: `/${lang}/scores`, key: 'nav.scores' },
+  { href: `/${lang}/picks`, key: 'nav.picks' },
+  { href: `/${lang}/survivor`, key: 'nav.survivor' },
+  { href: `/${lang}/memes`, key: 'nav.memes' },
+] as const;
+const isCurrent = (href: string) => (href === `/${lang}` ? path === href : path === href || path.startsWith(href + '/'));
+---
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {langs.map((l) => <link rel="alternate" hreflang={l} href={new URL(swapLangPath(path, l), Astro.site)} />)}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#0b2a5b" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_MX' : 'en_US'} />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <script is:inline src="/theme.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">{lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}</a>
+    <header class="site-header">
+      <div class="container header-row">
+        <a class="brand" href={`/${lang}`} aria-label="El Ovoide">
+          <Logo class="brand-mark" />
+          <span class="brand-name">El <span>Ovoide</span></span>
+        </a>
+        <nav class="nav" aria-label={t(lang, 'nav.menu')}>
+          <ul>
+            {nav.map((n) => <li><a href={n.href} aria-current={isCurrent(n.href) ? 'page' : undefined}>{t(lang, n.key)}</a></li>)}
+          </ul>
+        </nav>
+        <div class="tools">
+          <a class="icon-btn" href={swapLangPath(path, other)} hreflang={other} lang={other} aria-label={`${t(lang, 'lang.switch')}: ${languages[other]}`}>
+            <Icon name="globe" />{other.toUpperCase()}
+          </a>
+          <button class="icon-btn theme-btn" type="button" aria-label={t(lang, 'theme.toggle')} data-theme-toggle>
+            <Icon name="moon" class="moon" /><Icon name="sun" class="sun" />
+          </button>
+          <button class="icon-btn menu-btn" type="button" aria-label={t(lang, 'nav.menu')} aria-expanded="false" aria-controls="mobile-nav" data-menu-toggle>
+            <Icon name="menu" />
+          </button>
+        </div>
+      </div>
+      <nav id="mobile-nav" class="mobile-nav" aria-label={t(lang, 'nav.menu')} hidden>
+        <ul class="container">
+          {nav.map((n) => <li><a href={n.href} aria-current={isCurrent(n.href) ? 'page' : undefined}>{t(lang, n.key)}</a></li>)}
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-row">
+        <div>
+          <strong>El Ovoide</strong> · {t(lang, 'footer.note')}<br />
+          <span>{t(lang, 'data.source')} · © {new Date().getFullYear()}</span>
+        </div>
+        <ul>
+          {nav.slice(1).map((n) => <li><a href={n.href}>{t(lang, n.key)}</a></li>)}
+        </ul>
+      </div>
+    </footer>
+
+    <script>
+      const root = document.documentElement;
+      document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
+        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        try { localStorage.setItem('theme', next); } catch {}
+      });
+      const menuBtn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+      const menu = document.getElementById('mobile-nav');
+      menuBtn?.addEventListener('click', () => {
+        const open = menuBtn.getAttribute('aria-expanded') === 'true';
+        menuBtn.setAttribute('aria-expanded', String(!open));
+        if (menu) menu.hidden = open;
+      });
+    </script>
+  </body>
+</html>

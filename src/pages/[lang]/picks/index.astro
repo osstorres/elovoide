@@ -1,0 +1,39 @@
+---
+import Base from '../../../layouts/Base.astro';
+import WeekCard from '../../../components/WeekCard.astro';
+import { getPicks, resolvePicks } from '../../../lib/content';
+import { recordText, tally } from '../../../lib/results';
+import { langPaths } from '../../../lib/paths';
+import { t, type Lang } from '../../../i18n/ui';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const entries = await getPicks(lang);
+const resolved = await Promise.all(entries.map(resolvePicks));
+const all = tally(resolved.flatMap((r) => r.games.map((g) => g.outcome)));
+const decided = all.win + all.loss + all.push;
+const pct = decided ? Math.round((all.win / decided) * 100) : 0;
+---
+<Base lang={lang} title={t(lang, 'picks.title')} description={t(lang, 'section.picks.desc')}>
+  <div class="container">
+    <header class="page-head">
+      <span class="kicker">El Ovoide</span>
+      <h1>{t(lang, 'picks.title')}</h1>
+      <p>{t(lang, 'picks.intro')}</p>
+    </header>
+
+    {entries.length > 0 && (
+      <div class="stats-row">
+        <div class="card stat"><div class="label">{t(lang, 'picks.record')}</div><div class="record-big">{recordText(all)}</div></div>
+        <div class="card stat"><div class="label">%</div><div class="record-big">{pct}%</div></div>
+        <div class="card stat"><div class="label">{t(lang, 'picks.pending')}</div><div class="record-big">{all.pending}</div></div>
+      </div>
+    )}
+
+    {entries.length ? (
+      <div class="grid">{entries.map((entry) => <WeekCard lang={lang} entry={entry} />)}</div>
+    ) : (
+      <p class="empty">{t(lang, 'picks.empty')}</p>
+    )}
+  </div>
+</Base>

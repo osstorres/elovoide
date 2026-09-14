@@ -1,0 +1,57 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import PickCard from '../../../components/PickCard.astro';
+import Icon from '../../../components/Icon.astro';
+import { resolvePicks, splitId, type PickEntry } from '../../../lib/content';
+import { recordText } from '../../../lib/results';
+import { localeOf, t, type Lang } from '../../../i18n/ui';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('picks', (e) => !e.data.draft);
+  return entries.map((entry) => {
+    const { lang, slug } = splitId(entry.id);
+    return { params: { lang, slug }, props: { entry } };
+  });
+}
+
+const lang = Astro.params.lang as Lang;
+const { entry } = Astro.props as { entry: PickEntry };
+const { Content } = await render(entry);
+const { games, record } = await resolvePicks(entry);
+const decided = record.win + record.loss + record.push;
+---
+<Base lang={lang} title={entry.data.title} description={entry.data.summary}>
+  <div class="container">
+    <header class="page-head">
+      <p><a href={`/${lang}/picks`} class="muted">← {t(lang, 'picks.back')}</a></p>
+      <span class="kicker">{t(lang, 'picks.season')} {entry.data.season} · {t(lang, 'picks.week')} {entry.data.week}</span>
+      <h1>{entry.data.title}</h1>
+      <p>{entry.data.summary}</p>
+      <span class="meta-line">
+        {new Intl.DateTimeFormat(localeOf(lang), { dateStyle: 'long', timeZone: 'UTC' }).format(entry.data.published)}
+      </span>
+    </header>
+
+    <div class="stats-row">
+      <div class="card stat">
+        <div class="label">{t(lang, 'picks.weekRecord')}</div>
+        <div class="record-big">{decided ? recordText(record) : '—'}</div>
+      </div>
+      <div class="card stat">
+        <div class="label">{t(lang, 'picks.pending')}</div>
+        <div class="record-big">{record.pending}</div>
+      </div>
+      <a class="card stat nav-card" href={`/${lang}/scores#week=${entry.data.week}`}>
+        <div class="label">{t(lang, 'scores.title')}</div>
+        <div class="record-big"><Icon name="arrow" class="arrow" /></div>
+      </a>
+    </div>
+
+    <div class="prose"><Content /></div>
+
+    <section class="section">
+      {games.map((game) => <PickCard lang={lang} game={game} />)}
+    </section>
+  </div>
+</Base>
