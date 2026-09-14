@@ -40,7 +40,7 @@ games:
     home: BUF
     pick: BUF
     spread: 'BUF -2.5'  # opcional
-    analysis: 'Por qué elegimos este pronóstico.'  # opcional; si falta se muestra «Análisis próximamente.»
+    analysis: 'Por qué elegimos este pronóstico.'  # opcional; si falta se muestra «Sin análisis fuerte, solo pronóstico directo.»
     context: 'Lesiones, clima, racha…'      # opcional
     data:
       - 'Dato clave 1'
