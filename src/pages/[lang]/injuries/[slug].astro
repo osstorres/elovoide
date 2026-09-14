@@ -3,7 +3,7 @@ import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import { logoFor } from '../../../lib/espn';
 import { teamName } from '../../../lib/teams';
-import { langs, localeOf, t, type Lang } from '../../../i18n/ui';
+import { langs, t, type Lang } from '../../../i18n/ui';
 
 export async function getStaticPaths() {
   const entries = await getCollection('injuries', (e) => !e.data.draft);
@@ -21,9 +21,6 @@ const { data } = entry;
       <a href={`/${lang}/injuries`} class="back">← {t(lang, 'injuries.back')}</a>
       <span class="kicker">{t(lang, 'picks.season')} {data.season} · {t(lang, 'picks.week')} {data.week}</span>
       <h1>{data.title}</h1>
-      <span class="meta-line">
-        {new Intl.DateTimeFormat(localeOf(lang), { dateStyle: 'long', timeZone: 'UTC' }).format(data.published)}
-      </span>
     </header>
 
     <div class="prose"><Content /></div>

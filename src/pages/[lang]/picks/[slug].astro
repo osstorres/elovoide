@@ -4,7 +4,7 @@ import Base from '../../../layouts/Base.astro';
 import PickCard from '../../../components/PickCard.astro';
 import { resolvePicks, splitId, type PickEntry } from '../../../lib/content';
 import { recordText } from '../../../lib/results';
-import { localeOf, t, type Lang } from '../../../i18n/ui';
+import { t, type Lang } from '../../../i18n/ui';
 
 export async function getStaticPaths() {
   const entries = await getCollection('picks', (e) => !e.data.draft);
@@ -27,9 +27,6 @@ const decided = record.win + record.loss + record.push;
       <span class="kicker">{t(lang, 'picks.season')} {entry.data.season} · {t(lang, 'picks.week')} {entry.data.week}</span>
       <h1>{entry.data.title}</h1>
       <p>{entry.data.summary}</p>
-      <span class="meta-line">
-        {new Intl.DateTimeFormat(localeOf(lang), { dateStyle: 'long', timeZone: 'UTC' }).format(entry.data.published)}
-      </span>
     </header>
 
     <div class="stats-row">

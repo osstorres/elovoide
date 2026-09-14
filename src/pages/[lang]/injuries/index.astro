@@ -2,12 +2,11 @@
 import Base from '../../../layouts/Base.astro';
 import { getInjuries } from '../../../lib/content';
 import { langPaths } from '../../../lib/paths';
-import { localeOf, t, type Lang } from '../../../i18n/ui';
+import { t, type Lang } from '../../../i18n/ui';
 
 export const getStaticPaths = langPaths;
 const lang = Astro.params.lang as Lang;
 const reports = await getInjuries();
-const fmt = new Intl.DateTimeFormat(localeOf(lang), { dateStyle: 'long', timeZone: 'UTC' });
 ---
 <Base lang={lang} title={t(lang, 'injuries.title')} description={t(lang, 'injuries.intro')}>
   <div class="container">
@@ -23,7 +22,7 @@ const fmt = new Intl.DateTimeFormat(localeOf(lang), { dateStyle: 'long', timeZon
           <a class="week-card" href={`/${lang}/injuries/${r.id}`}>
             <span class="badge">{t(lang, 'picks.week')} {r.data.week} · {r.data.season}</span>
             <h3>{r.data.title}</h3>
-            <span class="muted">{fmt.format(r.data.published)} · {r.data.games.length} {t(lang, 'injuries.games')}</span>
+            <span class="muted">{r.data.games.length} {t(lang, 'injuries.games')}</span>
           </a>
         ))}
       </div>
