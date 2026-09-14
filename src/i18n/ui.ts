@@ -53,7 +53,7 @@ export const ui = {
     'data.error': 'No pudimos cargar los datos en este momento. Intenta de nuevo más tarde.',
     'data.loading': 'Cargando…',
     'picks.title': 'Pronósticos',
-    'picks.intro': 'Cada semana publicamos nuestros picks con su análisis, contexto y datos. Al terminar la jornada, anotamos el resultado.',
+    'picks.intro': 'Pronósticos simples de quién gana cada partido, con un análisis corto. No son apuestas ni recomendaciones para apostar. Al terminar la jornada, anotamos el resultado.',
     'picks.week': 'Semana',
     'picks.season': 'Temporada',
     'picks.record': 'Récord',
@@ -71,6 +71,8 @@ export const ui = {
     'picks.spread': 'Línea',
     'picks.readMore': 'Leer análisis',
     'picks.empty': 'Aún no hay pronósticos publicados.',
+    'picks.comingSoon': 'Próximamente',
+    'picks.comingSoonBody': 'Los pronósticos de esta semana todavía no están listos.',
     'picks.back': 'Todos los pronósticos',
     'picks.weekRecord': 'Récord de la semana',
     'injuries.title': 'Reporte de lesiones',
@@ -95,7 +97,7 @@ export const ui = {
     'notFound.title': 'Pase incompleto',
     'notFound.body': 'Esta página no existe o se fue a la banca.',
     'notFound.back': 'Volver al inicio',
-    'footer.note': 'Blog personal, sin afiliación con la NFL ni sus equipos.',
+    'footer.note': 'Blog personal, solo como registro histórico. No son apuestas, solo pronósticos simples. Sin afiliación con la NFL ni sus equipos.',
   },
 } as const;
 

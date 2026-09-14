@@ -1,7 +1,7 @@
 ---
 import { resolvePicks, splitId, type PickEntry } from '../lib/content';
 import { recordText } from '../lib/results';
-import { localeOf, t, type Lang } from '../i18n/ui';
+import { t, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang; entry: PickEntry }
 const { lang, entry } = Astro.props;
@@ -11,7 +11,9 @@ const decided = record.win + record.loss + record.push;
 <a class="week-card" href={`/${lang}/picks/${splitId(entry.id).slug}`}>
   <div class="row">
     <span class="badge">{t(lang, 'picks.week')} {entry.data.week} · {entry.data.season}</span>
-    {decided > 0 ? (
+    {entry.data.games.length === 0 ? (
+      <span class="badge">{t(lang, 'picks.comingSoon')}</span>
+    ) : decided > 0 ? (
       <span class={`badge ${record.win >= record.loss ? 'badge-win' : 'badge-loss'}`}>{t(lang, 'picks.record')} {recordText(record)}</span>
     ) : (
       <span class="badge badge-pending">{t(lang, 'picks.pending')}</span>
@@ -19,8 +21,5 @@ const decided = record.win + record.loss + record.push;
   </div>
   <h3>{entry.data.title}</h3>
   <p>{entry.data.summary}</p>
-  <span class="muted">
-    {new Intl.DateTimeFormat(localeOf(lang), { dateStyle: 'long', timeZone: 'UTC' }).format(entry.data.published)}
-    · {entry.data.games.length} picks
-  </span>
+  {entry.data.games.length > 0 && <span class="muted">{entry.data.games.length} picks</span>}
 </a>

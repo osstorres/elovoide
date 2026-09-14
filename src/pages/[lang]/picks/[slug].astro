@@ -4,7 +4,7 @@ import Base from '../../../layouts/Base.astro';
 import PickCard from '../../../components/PickCard.astro';
 import { resolvePicks, splitId, type PickEntry } from '../../../lib/content';
 import { recordText } from '../../../lib/results';
-import { localeOf, t, type Lang } from '../../../i18n/ui';
+import { t, type Lang } from '../../../i18n/ui';
 
 export async function getStaticPaths() {
   const entries = await getCollection('picks', (e) => !e.data.draft);
@@ -27,30 +27,33 @@ const decided = record.win + record.loss + record.push;
       <span class="kicker">{t(lang, 'picks.season')} {entry.data.season} · {t(lang, 'picks.week')} {entry.data.week}</span>
       <h1>{entry.data.title}</h1>
       <p>{entry.data.summary}</p>
-      <span class="meta-line">
-        {new Intl.DateTimeFormat(localeOf(lang), { dateStyle: 'long', timeZone: 'UTC' }).format(entry.data.published)}
-      </span>
     </header>
 
-    <div class="stats-row">
-      <div class="stat">
-        <div class="label">{t(lang, 'picks.weekRecord')}</div>
-        <div class="record-big">{decided ? recordText(record) : '—'}</div>
-      </div>
-      <div class="stat">
-        <div class="label">{t(lang, 'picks.pending')}</div>
-        <div class="record-big">{record.pending}</div>
-      </div>
-      <div class="stat">
-        <div class="label">&nbsp;</div>
-        <a href={`/${lang}/scores#week=${entry.data.week}`}>{t(lang, 'scores.title')} de la semana →</a>
-      </div>
-    </div>
+    {games.length === 0 ? (
+      <p class="placeholder">{t(lang, 'picks.comingSoonBody')}</p>
+    ) : (
+      <>
+        <div class="stats-row">
+          <div class="stat">
+            <div class="label">{t(lang, 'picks.weekRecord')}</div>
+            <div class="record-big">{decided ? recordText(record) : '—'}</div>
+          </div>
+          <div class="stat">
+            <div class="label">{t(lang, 'picks.pending')}</div>
+            <div class="record-big">{record.pending}</div>
+          </div>
+          <div class="stat">
+            <div class="label">&nbsp;</div>
+            <a href={`/${lang}/scores#week=${entry.data.week}`}>{t(lang, 'scores.title')} de la semana →</a>
+          </div>
+        </div>
 
-    <div class="prose"><Content /></div>
+        <div class="prose"><Content /></div>
 
-    <section class="section">
-      {games.map((game) => <PickCard lang={lang} game={game} />)}
-    </section>
+        <section class="section">
+          {games.map((game) => <PickCard lang={lang} game={game} />)}
+        </section>
+      </>
+    )}
   </div>
 </Base>
