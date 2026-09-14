@@ -7,7 +7,17 @@ export const esc = (v: unknown) => String(v ?? '').replace(/[&<>"']/g, (c) => ES
 
 export interface StandingsLabels {
   team: string; w: string; l: string; t: string; pct: string; pf: string; pa: string; diff: string; strk: string;
+  seed: string;
+  /** ESPN division suffixes (East, North…) in the page language. */
+  divisions: Record<string, string>;
 }
+
+const divisionName = (name: string, L: StandingsLabels) =>
+  name.replace(/\b(East|West|North|South)\b/, (d) => L.divisions[d] ?? d);
+
+/** ESPN streaks look like W3 / L1 / T1; reuse the W/L/T column letters. */
+const streakText = (streak: string, L: StandingsLabels) =>
+  streak.replace(/^([WLT])(?=\d)/, (c) => (c === 'W' ? L.w : c === 'L' ? L.l : L.t));
 export interface ScoresLabels {
   final: string; live: string; empty: string; locale: string;
   /** Fixed zone for the build-time snapshot; the browser uses its own. */
@@ -25,7 +35,7 @@ export function standingsHtml(s: Standings, L: StandingsLabels): string {
     .map(
       (div) => `
     <div class="card table-card">
-      <h3 class="div-title">${esc(div.name)}</h3>
+      <h3 class="div-title">${esc(divisionName(div.name, L))}</h3>
       <div class="table-wrap">
       <table class="standings">
         <thead><tr>
@@ -44,14 +54,14 @@ export function standingsHtml(s: Standings, L: StandingsLabels): string {
               <span class="team">
                 <img src="${esc(tm.logo)}" alt="" width="24" height="24" loading="lazy" decoding="async" />
                 <span class="team-name"><span class="full">${esc(tm.name)}</span><span class="abbr">${esc(tm.abbr)}</span></span>
-                ${tm.seed ? `<span class="seed" title="Seed">${esc(tm.seed)}</span>` : ''}
+                ${tm.seed ? `<span class="seed" title="${esc(L.seed)}">${esc(tm.seed)}</span>` : ''}
               </span>
             </th>
             <td>${tm.wins}</td><td>${tm.losses}</td><td>${tm.ties}</td>
             <td>${esc(tm.pct)}</td>
             <td class="hide-sm">${tm.pf}</td><td class="hide-sm">${tm.pa}</td>
             <td class="${tm.diff.startsWith('+') ? 'pos' : tm.diff.startsWith('-') ? 'neg' : ''}">${esc(tm.diff)}</td>
-            <td class="hide-sm">${esc(tm.streak)}</td>
+            <td class="hide-sm">${esc(streakText(tm.streak, L))}</td>
           </tr>`,
           )
           .join('')}
