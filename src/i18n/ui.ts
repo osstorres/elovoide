@@ -1,7 +1,6 @@
-export const languages = { es: 'Español', en: 'English' } as const;
+export const languages = { es: 'Español' } as const;
 export type Lang = keyof typeof languages;
 export const langs = Object.keys(languages) as Lang[];
-export const defaultLang: Lang = 'es';
 
 export const ui = {
   es: {
@@ -14,7 +13,6 @@ export const ui = {
     'nav.memes': 'Memes',
     'nav.menu': 'Menú',
     'theme.toggle': 'Cambiar tema claro/oscuro',
-    'lang.switch': 'Cambiar idioma',
     'home.hero.kicker': 'Blog de NFL',
     'home.hero.title': 'Todo lo que rebota en la NFL',
     'home.hero.body':
@@ -92,112 +90,12 @@ export const ui = {
     'notFound.back': 'Volver al inicio',
     'footer.note': 'Blog personal, sin afiliación con la NFL ni sus equipos.',
   },
-  en: {
-    'site.tagline': 'NFL with an accent: standings, scores, picks and memes.',
-    'nav.home': 'Home',
-    'nav.standings': 'Standings',
-    'nav.scores': 'Scores',
-    'nav.picks': 'Picks',
-    'nav.survivor': 'Survivor',
-    'nav.memes': 'Memes',
-    'nav.menu': 'Menu',
-    'theme.toggle': 'Toggle light/dark theme',
-    'lang.switch': 'Switch language',
-    'home.hero.kicker': 'NFL Blog',
-    'home.hero.title': 'Every bounce of the NFL',
-    'home.hero.body':
-      'Weekly picks with analysis and data, our Survivor run, up-to-date standings and scores, and the memes each week leaves behind.',
-    'home.cta.picks': 'See the picks',
-    'home.cta.scores': "This week's scores",
-    'home.sections': 'Sections',
-    'home.latestPicks': 'Latest picks',
-    'home.thisWeek': 'This week',
-    'home.latestMemes': 'Latest memes',
-    'section.standings.desc': 'Division and conference tables, updated live.',
-    'section.scores.desc': 'Scores for every week of the season.',
-    'section.picks.desc': 'Our weekly picks: analysis, context, data and how we did.',
-    'section.survivor.desc': 'One team per week, no repeats. Did we survive?',
-    'section.memes.desc': 'The funniest things each week gave us.',
-    'standings.title': 'Standings',
-    'standings.team': 'Team',
-    'standings.w': 'W',
-    'standings.l': 'L',
-    'standings.t': 'T',
-    'standings.pct': 'PCT',
-    'standings.pf': 'PF',
-    'standings.pa': 'PA',
-    'standings.diff': 'DIFF',
-    'standings.strk': 'STRK',
-    'standings.seed': 'Seed',
-    'standings.east': 'East',
-    'standings.west': 'West',
-    'standings.north': 'North',
-    'standings.south': 'South',
-    'scores.title': 'Scores',
-    'scores.week': 'Week',
-    'scores.final': 'Final',
-    'scores.scheduled': 'Scheduled',
-    'scores.live': 'Live',
-    'scores.empty': 'No games this week.',
-    'data.updated': 'Updated',
-    'data.source': 'Data: ESPN',
-    'data.error': "We couldn't load the data right now. Please try again later.",
-    'data.loading': 'Loading…',
-    'picks.title': 'Picks',
-    'picks.intro': 'Every week we publish our picks with analysis, context and data. When the week is over, we log the result.',
-    'picks.week': 'Week',
-    'picks.season': 'Season',
-    'picks.record': 'Record',
-    'picks.pick': 'Pick',
-    'picks.confidence': 'Confidence',
-    'picks.analysis': 'Analysis',
-    'picks.context': 'Context',
-    'picks.data': 'Key data',
-    'picks.result': 'Result',
-    'picks.win': 'Hit',
-    'picks.loss': 'Miss',
-    'picks.push': 'Push',
-    'picks.pending': 'Pending',
-    'picks.spread': 'Line',
-    'picks.readMore': 'Read analysis',
-    'picks.empty': 'No picks published yet.',
-    'picks.back': 'All picks',
-    'picks.weekRecord': 'Week record',
-    'survivor.title': 'Survivor',
-    'survivor.intro': "Rules: we pick one team to win each week and can't use it again all season. One loss and we're out.",
-    'survivor.status.alive': 'Still alive',
-    'survivor.status.out': 'Eliminated',
-    'survivor.used': 'Teams used',
-    'survivor.vs': 'vs',
-    'survivor.at': 'at',
-    'survivor.why': 'Why',
-    'survivor.empty': 'No Survivor picks this season yet.',
-    'memes.title': 'Memes',
-    'memes.intro': 'Because football is better with a laugh.',
-    'memes.empty': 'No memes yet. Soon.',
-    'notFound.title': 'Incomplete pass',
-    'notFound.body': "This page doesn't exist or got benched.",
-    'notFound.back': 'Back to home',
-    'footer.note': 'Personal blog, not affiliated with the NFL or its teams.',
-  },
 } as const;
 
 export type UIKey = keyof (typeof ui)['es'];
 
 export function t(lang: Lang, key: UIKey): string {
-  return ui[lang][key] ?? ui[defaultLang][key];
+  return ui[lang][key];
 }
 
-export function isLang(value: string | undefined): value is Lang {
-  return !!value && value in languages;
-}
-
-/** Same path in the other language: /es/picks/x -> /en/picks/x */
-export function swapLangPath(pathname: string, to: Lang): string {
-  const parts = pathname.split('/').filter(Boolean);
-  if (parts.length && isLang(parts[0])) parts[0] = to;
-  else parts.unshift(to);
-  return '/' + parts.join('/');
-}
-
-export const localeOf = (lang: Lang) => (lang === 'es' ? 'es-MX' : 'en-US');
+export const localeOf = (_lang: Lang) => 'es-MX';

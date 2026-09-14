@@ -9,9 +9,8 @@ const teamAbbr = z
 const outcome = z.enum(['win', 'loss', 'push', 'pending']);
 
 /**
- * Weekly picks. One Markdown file per language with the same file name:
+ * Weekly picks. One Markdown file per week:
  *   src/content/picks/es/2026-w01.md
- *   src/content/picks/en/2026-w01.md
  * The body is the week's intro/overview; each game lives in `games`.
  */
 const picks = defineCollection({
@@ -49,8 +48,6 @@ const picks = defineCollection({
   }),
 });
 
-const bilingual = z.object({ es: z.string(), en: z.string() });
-
 /** One entry per week in src/content/survivor.yaml */
 const survivor = defineCollection({
   loader: file('./src/content/survivor.yaml'),
@@ -60,7 +57,7 @@ const survivor = defineCollection({
     team: teamAbbr,
     opponent: teamAbbr,
     home: z.boolean().default(true),
-    why: bilingual,
+    why: z.string(),
     // Leave out to auto-resolve from the final score.
     outcome: outcome.optional(),
   }),
@@ -74,8 +71,8 @@ const memes = defineCollection({
       image: image(),
       date: z.coerce.date(),
       week: z.number().int().optional(),
-      caption: bilingual,
-      alt: bilingual,
+      caption: z.string(),
+      alt: z.string(),
     }),
 });
 

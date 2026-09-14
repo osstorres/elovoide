@@ -1,6 +1,6 @@
 # El Ovoide
 
-Blog personal de NFL en español e inglés: posiciones, resultados, pronósticos semanales, survivor y memes.
+Blog personal de NFL en español: posiciones, resultados, pronósticos semanales, survivor y memes.
 
 Sitio 100% estático con [Astro](https://astro.build), desplegado en Vercel.
 
@@ -21,11 +21,10 @@ Todo el contenido vive en `src/content/`. Cada cambio que se sube a GitHub dispa
 
 ### Pronósticos (semanales)
 
-Crea un archivo por idioma con **el mismo nombre**:
+Crea un archivo por semana:
 
 ```
 src/content/picks/es/2026-w03.md
-src/content/picks/en/2026-w03.md
 ```
 
 ```yaml
@@ -68,9 +67,7 @@ Agrega una entrada en `src/content/survivor.yaml`:
   team: BAL
   opponent: CLE
   home: true
-  why:
-    es: Razón en español.
-    en: Reason in English.
+  why: Por qué elegimos este equipo.
   # outcome: win | loss | push   (opcional; si no, se calcula solo)
 ```
 
@@ -83,8 +80,8 @@ Copia la imagen (PNG/JPG/WebP) a `src/content/memes/` y agrégala en `src/conten
   image: ./mi-meme.jpg
   date: 2026-09-21
   week: 3
-  caption: { es: 'Texto', en: 'Text' }
-  alt: { es: 'Descripción de la imagen', en: 'Image description' }
+  caption: 'Texto'
+  alt: 'Descripción de la imagen'
 ```
 
 Las imágenes se optimizan a WebP en el build.

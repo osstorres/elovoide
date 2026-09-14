@@ -5,7 +5,7 @@ import '@fontsource/barlow-condensed/700.css';
 import '../styles/global.css';
 import Icon from '../components/Icon.astro';
 import Logo from '../components/Logo.astro';
-import { languages, langs, swapLangPath, t, type Lang } from '../i18n/ui';
+import { t, type Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
@@ -15,7 +15,6 @@ interface Props {
 const { lang, title, description = t(lang, 'site.tagline') } = Astro.props;
 const fullTitle = title ? `${title} · El Ovoide` : 'El Ovoide · NFL';
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const other = langs.find((l) => l !== lang)!;
 const canonical = new URL(path, Astro.site);
 
 const nav = [
@@ -35,19 +34,18 @@ const isCurrent = (href: string) => (href === `/${lang}` ? path === href : path 
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {langs.map((l) => <link rel="alternate" hreflang={l} href={new URL(swapLangPath(path, l), Astro.site)} />)}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="theme-color" content="#0b2a5b" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
-    <meta property="og:locale" content={lang === 'es' ? 'es_MX' : 'en_US'} />
+    <meta property="og:locale" content="es_MX" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <script is:inline src="/theme.js"></script>
   </head>
   <body>
-    <a class="skip" href="#main">{lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}</a>
+    <a class="skip" href="#main">Saltar al contenido</a>
     <header class="site-header">
       <div class="container header-row">
         <a class="brand" href={`/${lang}`} aria-label="El Ovoide">
@@ -60,9 +58,6 @@ const isCurrent = (href: string) => (href === `/${lang}` ? path === href : path 
           </ul>
         </nav>
         <div class="tools">
-          <a class="icon-btn" href={swapLangPath(path, other)} hreflang={other} lang={other} aria-label={`${t(lang, 'lang.switch')}: ${languages[other]}`}>
-            <Icon name="globe" />{other.toUpperCase()}
-          </a>
           <button class="icon-btn theme-btn" type="button" aria-label={t(lang, 'theme.toggle')} data-theme-toggle>
             <Icon name="moon" class="moon" /><Icon name="sun" class="sun" />
           </button>
