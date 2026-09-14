@@ -23,7 +23,7 @@ const decided = record.win + record.loss + record.push;
 <Base lang={lang} title={entry.data.title} description={entry.data.summary}>
   <div class="container">
     <header class="page-head">
-      <a href={`/${lang}/picks`} class="back">← {t(lang, 'picks.back')}</a>
+      <a href={`/${lang}/pronosticos`} class="back">← {t(lang, 'picks.back')}</a>
       <span class="kicker">{t(lang, 'picks.season')} {entry.data.season} · {t(lang, 'picks.week')} {entry.data.week}</span>
       <h1>{entry.data.title}</h1>
       <p>{entry.data.summary}</p>

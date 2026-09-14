@@ -8,7 +8,7 @@ const { lang, entry } = Astro.props;
 const { record } = await resolvePicks(entry);
 const decided = record.win + record.loss + record.push;
 ---
-<a class="week-card" href={`/${lang}/picks/${splitId(entry.id).slug}`}>
+<a class="week-card" href={`/${lang}/pronosticos/${splitId(entry.id).slug}`}>
   <div class="row">
     <span class="badge">{t(lang, 'picks.week')} {entry.data.week} · {entry.data.season}</span>
     {entry.data.games.length === 0 ? (
@@ -21,5 +21,5 @@ const decided = record.win + record.loss + record.push;
   </div>
   <h3>{entry.data.title}</h3>
   <p>{entry.data.summary}</p>
-  {entry.data.games.length > 0 && <span class="muted">{entry.data.games.length} picks</span>}
+  {entry.data.games.length > 0 && <span class="muted">{entry.data.games.length} pronósticos</span>}
 </a>
