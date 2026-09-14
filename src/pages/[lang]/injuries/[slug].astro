@@ -1,0 +1,57 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import { logoFor } from '../../../lib/espn';
+import { teamName } from '../../../lib/teams';
+import { langs, localeOf, t, type Lang } from '../../../i18n/ui';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('injuries', (e) => !e.data.draft);
+  return langs.flatMap((lang) => entries.map((entry) => ({ params: { lang, slug: entry.id }, props: { entry } })));
+}
+
+const lang = Astro.params.lang as Lang;
+const { entry } = Astro.props as { entry: CollectionEntry<'injuries'> };
+const { Content } = await render(entry);
+const { data } = entry;
+---
+<Base lang={lang} title={data.title} description={t(lang, 'injuries.intro')}>
+  <div class="container">
+    <header class="page-head">
+      <a href={`/${lang}/injuries`} class="back">← {t(lang, 'injuries.back')}</a>
+      <span class="kicker">{t(lang, 'picks.season')} {data.season} · {t(lang, 'picks.week')} {data.week}</span>
+      <h1>{data.title}</h1>
+      <span class="meta-line">
+        {new Intl.DateTimeFormat(localeOf(lang), { dateStyle: 'long', timeZone: 'UTC' }).format(data.published)}
+        {data.source && <> · {t(lang, 'injuries.source')}: <a href={data.source.url} rel="noopener noreferrer">{data.source.name}</a></>}
+      </span>
+    </header>
+
+    <div class="prose"><Content /></div>
+
+    <section class="section">
+      {data.games.map((g) => (
+        <article class="injury-game">
+          <h2 class="matchup">
+            <img src={logoFor(g.away)} alt="" width="24" height="24" loading="lazy" />
+            {teamName(g.away)} <span class="at">@</span> {teamName(g.home)}
+            <img src={logoFor(g.home)} alt="" width="24" height="24" loading="lazy" />
+          </h2>
+          <div class="injury-teams">
+            {[{ team: g.away, notes: g.awayNotes }, { team: g.home, notes: g.homeNotes }].map(({ team, notes }) => (
+              <div>
+                <h3>{teamName(team)}</h3>
+                {notes.length ? (
+                  <ul class="injury-list">{notes.map((n) => <li>{n}</li>)}</ul>
+                ) : (
+                  <p class="muted">{t(lang, 'injuries.healthy')}</p>
+                )}
+              </div>
+            ))}
+          </div>
+          {g.note && <p class="injury-note">{g.note}</p>}
+        </article>
+      ))}
+    </section>
+  </div>
+</Base>

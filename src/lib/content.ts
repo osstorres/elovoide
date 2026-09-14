@@ -68,6 +68,11 @@ export async function getSurvivor(season?: number) {
   return { season: current, rows, alive, record: tally(rows.map((r) => r.outcome)) };
 }
 
+export async function getInjuries() {
+  const all = await getCollection('injuries', (e) => !e.data.draft);
+  return all.sort((a, b) => b.data.season - a.data.season || b.data.week - a.data.week);
+}
+
 export async function getMemes() {
   const all = await getCollection('memes');
   return all.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());

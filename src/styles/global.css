@@ -215,3 +215,13 @@ table.standings { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
 .footer-row a { color: var(--muted); }
 
 .notice { padding: 12px 0; color: var(--muted); }
+
+/* ---------- Injuries ---------- */
+.injury-game { padding-block: 18px; border-bottom: 1px solid var(--rule); max-width: 860px; }
+.injury-game .matchup { margin-bottom: 10px; }
+.injury-teams { display: grid; gap: 12px 32px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.injury-teams h3 { font-size: 0.8rem; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
+.injury-teams p { margin: 0; font-size: 0.95rem; }
+.injury-list { margin: 0; padding-left: 1.1em; font-size: 0.95rem; }
+.injury-list li { margin: 3px 0; }
+.injury-note { margin: 10px 0 0; font-size: 0.9rem; color: var(--muted); }
