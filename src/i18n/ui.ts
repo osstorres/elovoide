@@ -60,7 +60,7 @@ export const ui = {
     'picks.pick': 'Pronóstico',
     'picks.confidence': 'Confianza',
     'picks.analysis': 'Análisis',
-    'picks.analysisPending': 'Análisis próximamente.',
+    'picks.analysisPending': 'Sin análisis fuerte, solo pronóstico directo.',
     'picks.context': 'Contexto',
     'picks.data': 'Datos clave',
     'picks.result': 'Resultado',
