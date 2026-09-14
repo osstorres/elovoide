@@ -1,10 +1,9 @@
 ---
-import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import WeekCard from '../../components/WeekCard.astro';
 import { fetchScoreboard, logoFor, safely } from '../../lib/espn';
 import { scoresHtml } from '../../lib/render';
-import { getMemes, getPicks, getSurvivor } from '../../lib/content';
+import { getPicks, getSurvivor } from '../../lib/content';
 import { recordText } from '../../lib/results';
 import { teamName } from '../../lib/teams';
 import { langPaths } from '../../lib/paths';
@@ -13,11 +12,10 @@ import { localeOf, t, type Lang } from '../../i18n/ui';
 export const getStaticPaths = langPaths;
 const lang = Astro.params.lang as Lang;
 
-const [sb, picks, survivor, memes] = await Promise.all([
+const [sb, picks, survivor] = await Promise.all([
   safely(() => fetchScoreboard()),
   getPicks(lang),
   getSurvivor(),
-  getMemes(),
 ]);
 // Snapshot on the home page: live/finished games first, then the next kickoffs.
 const featured = sb
@@ -67,22 +65,5 @@ const lastSurvivor = survivor.rows.at(-1);
         {picks.length === 0 && !lastSurvivor && <p class="empty">{t(lang, 'picks.empty')}</p>}
       </div>
     </section>
-
-    {memes.length > 0 && (
-      <section class="section">
-        <div class="section-head">
-          <h2>{t(lang, 'home.latestMemes')}</h2>
-          <a href={`/${lang}/memes`}>{t(lang, 'nav.memes')} →</a>
-        </div>
-        <div class="memes">
-          {memes.slice(0, 3).map((m) => (
-            <figure class="meme">
-              <Image src={m.data.image} alt={m.data.alt} widths={[400, 800]} sizes="(min-width: 980px) 360px, 100vw" />
-              <figcaption><span>{m.data.caption}</span></figcaption>
-            </figure>
-          ))}
-        </div>
-      </section>
-    )}
   </div>
 </Base>

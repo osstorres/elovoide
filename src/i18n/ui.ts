@@ -91,6 +91,7 @@ export const ui = {
     'memes.title': 'Memes',
     'memes.intro': 'Porque la NFL también se vive riéndose.',
     'memes.empty': 'Todavía no hay memes. Pronto.',
+    'memes.construction': 'Sección en construcción. Muy pronto, los memes de cada jornada.',
     'notFound.title': 'Pase incompleto',
     'notFound.body': 'Esta página no existe o se fue a la banca.',
     'notFound.back': 'Volver al inicio',
