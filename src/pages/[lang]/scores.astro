@@ -1,0 +1,92 @@
+---
+import Base from '../../layouts/Base.astro';
+import { fetchScoreboard, safely } from '../../lib/espn';
+import { scoresHtml, type ScoresLabels } from '../../lib/render';
+import { langPaths } from '../../lib/paths';
+import { localeOf, t, type Lang } from '../../i18n/ui';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+
+const labels: ScoresLabels = {
+  final: t(lang, 'scores.final'),
+  live: t(lang, 'scores.live'),
+  empty: t(lang, 'scores.empty'),
+  locale: localeOf(lang),
+};
+const snapshotLabels = { ...labels, timeZone: 'America/New_York' };
+const sb = await safely(() => fetchScoreboard());
+const weeks = Array.from({ length: sb?.weeks ?? 18 }, (_, i) => i + 1);
+---
+<Base lang={lang} title={t(lang, 'scores.title')} description={t(lang, 'section.scores.desc')}>
+  <div class="container">
+    <header class="page-head">
+      <span class="kicker">{sb?.season ? `NFL ${sb.season}` : 'NFL'}</span>
+      <h1>{t(lang, 'scores.title')}</h1>
+      <p>{t(lang, 'section.scores.desc')}</p>
+    </header>
+
+    <div class="toolbar">
+      <label class="week-nav">
+        <span class="sr-only">{t(lang, 'scores.week')}</span>
+        <select class="select" data-week-select disabled={!sb}>
+          {weeks.map((w) => <option value={w} selected={w === sb?.week}>{t(lang, 'scores.week')} {w}</option>)}
+        </select>
+      </label>
+      <span class="meta-line" data-status>{t(lang, 'data.source')}</span>
+    </div>
+
+    <div
+      id="scores"
+      aria-live="polite"
+      data-labels={JSON.stringify(labels)}
+      data-season={sb?.season ?? ''}
+      data-week={sb?.week ?? ''}
+      data-loading={t(lang, 'data.loading')}
+      data-error={t(lang, 'data.error')}
+      data-source={t(lang, 'data.source')}
+    >
+      {sb ? <Fragment set:html={scoresHtml(sb, snapshotLabels)} /> : <p class="notice">{t(lang, 'data.error')}</p>}
+    </div>
+  </div>
+</Base>
+
+<script>
+  import { fetchScoreboard } from '../../lib/espn';
+  import { scoresHtml } from '../../lib/render';
+
+  const box = document.getElementById('scores')!;
+  const select = document.querySelector<HTMLSelectElement>('[data-week-select]');
+  const status = document.querySelector<HTMLElement>('[data-status]');
+  const labels = JSON.parse(box.dataset.labels!);
+  const season = Number(box.dataset.season) || undefined;
+  let current = Number(box.dataset.week) || undefined;
+  let timer: number | undefined;
+
+  async function load(week?: number, quiet = false) {
+    if (!quiet && status) status.textContent = box.dataset.loading!;
+    try {
+      const sb = await fetchScoreboard(week ? { season, week, seasonType: 2 } : {});
+      box.innerHTML = scoresHtml(sb, labels);
+      if (status) status.textContent = box.dataset.source!;
+      clearTimeout(timer);
+      // Poll gently only while a game is in progress on the visible week.
+      if (sb.games.some((g) => g.state === 'in')) timer = window.setTimeout(() => load(week, true), 60_000);
+    } catch {
+      if (status) status.textContent = box.dataset.error!;
+    }
+  }
+
+  const fromHash = Number(new URLSearchParams(location.hash.slice(1)).get('week'));
+  if (fromHash >= 1 && fromHash <= 22) {
+    current = fromHash;
+    if (select) select.value = String(fromHash);
+  }
+  load(current, true);
+
+  select?.addEventListener('change', () => {
+    current = Number(select.value);
+    history.replaceState(null, '', `#week=${current}`);
+    load(current);
+  });
+</script>

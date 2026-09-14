@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n/ui';
+---
+<Base lang="es" title="404">
+  <div class="container">
+    <header class="page-head">
+      <span class="kicker">404</span>
+      <h1>{t('es', 'notFound.title')} / {t('en', 'notFound.title')}</h1>
+      <p>{t('es', 'notFound.body')}</p>
+      <p lang="en">{t('en', 'notFound.body')}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/es">{t('es', 'notFound.back')}</a>
+        <a class="btn btn-primary" href="/en" lang="en">{t('en', 'notFound.back')}</a>
+      </div>
+    </header>
+  </div>
+</Base>

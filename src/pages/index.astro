@@ -1,0 +1,20 @@
+---
+// Root: send visitors to their language. Without JS, the meta refresh lands on Spanish.
+---
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>El Ovoide · NFL</title>
+    <meta name="description" content="Blog de NFL en español e inglés: posiciones, resultados, pronósticos, survivor y memes." />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" hreflang="es" href={new URL('/es', Astro.site)} />
+    <link rel="alternate" hreflang="en" href={new URL('/en', Astro.site)} />
+    <link rel="canonical" href={new URL('/es', Astro.site)} />
+    <script is:inline src="/lang-redirect.js"></script>
+    <meta http-equiv="refresh" content="1; url=/es" />
+  </head>
+  <body>
+    <p><a href="/es">Español</a> · <a href="/en">English</a></p>
+  </body>
+</html>

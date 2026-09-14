@@ -1,0 +1,16 @@
+---
+interface Props { class?: string }
+---
+<svg class={Astro.props.class} viewBox="0 0 64 64" aria-hidden="true">
+  <defs>
+    <linearGradient id="ovg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#38bdf8" />
+      <stop offset="1" stop-color="#1d4ed8" />
+    </linearGradient>
+  </defs>
+  <ellipse cx="32" cy="32" rx="28" ry="17" transform="rotate(-35 32 32)" fill="url(#ovg)" />
+  <g stroke="#fff" stroke-width="2.6" stroke-linecap="round" transform="rotate(-35 32 32)">
+    <path d="M20 32h24" />
+    <path d="M25 28v8M30 28v8M35 28v8M40 28v8" />
+  </g>
+</svg>

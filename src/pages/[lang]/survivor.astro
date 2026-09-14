@@ -1,0 +1,69 @@
+---
+import Base from '../../layouts/Base.astro';
+import OutcomeBadge from '../../components/OutcomeBadge.astro';
+import { getSurvivor } from '../../lib/content';
+import { logoFor } from '../../lib/espn';
+import { recordText } from '../../lib/results';
+import { teamName } from '../../lib/teams';
+import { langPaths } from '../../lib/paths';
+import { t, type Lang } from '../../i18n/ui';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const { season, rows, alive, record } = await getSurvivor();
+---
+<Base lang={lang} title={t(lang, 'survivor.title')} description={t(lang, 'section.survivor.desc')}>
+  <div class="container">
+    <header class="page-head">
+      <span class="kicker">{season ? `${t(lang, 'picks.season')} ${season}` : 'Survivor'}</span>
+      <h1>{t(lang, 'survivor.title')}</h1>
+      <p>{t(lang, 'survivor.intro')}</p>
+    </header>
+
+    {rows.length ? (
+      <>
+        <div class="card survivor-status">
+          <span class={`status-pill ${alive ? 'status-alive' : 'status-out'}`}>
+            {t(lang, alive ? 'survivor.status.alive' : 'survivor.status.out')}
+          </span>
+          <div>
+            <div class="muted">{t(lang, 'picks.record')}</div>
+            <div class="record-big">{recordText(record)}</div>
+          </div>
+          <div>
+            <div class="muted">{t(lang, 'survivor.used')} ({rows.length})</div>
+            <div class="used">
+              {rows.map((r) => <img src={logoFor(r.team)} alt={teamName(r.team)} title={teamName(r.team)} width="30" height="30" loading="lazy" />)}
+            </div>
+          </div>
+        </div>
+
+        <ol class="timeline" reversed>
+          {[...rows].reverse().map((r) => (
+            <li class="card tl-item">
+              <div class="tl-week">
+                <div class="l">{t(lang, 'picks.week')}</div>
+                <div class="n">{r.week}</div>
+              </div>
+              <div class="tl-main">
+                <div class="tl-top">
+                  <span class="tl-team">
+                    <img src={logoFor(r.team)} alt="" width="30" height="30" loading="lazy" />
+                    {teamName(r.team)}
+                  </span>
+                  <span class="muted">
+                    {r.home ? t(lang, 'survivor.vs') : t(lang, 'survivor.at')} {teamName(r.opponent)}
+                  </span>
+                  <OutcomeBadge lang={lang} outcome={r.outcome} />
+                </div>
+                <p><strong>{t(lang, 'survivor.why')}:</strong> {r.why[lang]}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </>
+    ) : (
+      <p class="empty">{t(lang, 'survivor.empty')}</p>
+    )}
+  </div>
+</Base>

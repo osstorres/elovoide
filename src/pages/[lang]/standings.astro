@@ -1,0 +1,78 @@
+---
+import Base from '../../layouts/Base.astro';
+import { fetchStandings, safely } from '../../lib/espn';
+import { standingsHtml, type StandingsLabels } from '../../lib/render';
+import { langPaths } from '../../lib/paths';
+import { localeOf, t, type Lang } from '../../i18n/ui';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+
+const labels: StandingsLabels = {
+  team: t(lang, 'standings.team'), w: t(lang, 'standings.w'), l: t(lang, 'standings.l'), t: t(lang, 'standings.t'),
+  pct: t(lang, 'standings.pct'), pf: t(lang, 'standings.pf'), pa: t(lang, 'standings.pa'),
+  diff: t(lang, 'standings.diff'), strk: t(lang, 'standings.strk'),
+};
+const standings = await safely(() => fetchStandings());
+const builtAt = new Date().toISOString();
+---
+<Base lang={lang} title={t(lang, 'standings.title')} description={t(lang, 'section.standings.desc')}>
+  <div class="container">
+    <header class="page-head">
+      <span class="kicker">{standings?.season ? `NFL ${standings.season}` : 'NFL'}</span>
+      <h1>{t(lang, 'standings.title')}</h1>
+      <p>{t(lang, 'section.standings.desc')}</p>
+    </header>
+
+    <div class="toolbar">
+      <div class="segmented" role="group" aria-label="AFC / NFC">
+        <button type="button" data-conf-btn="ALL" aria-pressed="true">AFC + NFC</button>
+        <button type="button" data-conf-btn="AFC" aria-pressed="false">AFC</button>
+        <button type="button" data-conf-btn="NFC" aria-pressed="false">NFC</button>
+      </div>
+      <span class="meta-line">
+        {t(lang, 'data.updated')}: <time data-updated datetime={builtAt}>{new Intl.DateTimeFormat(localeOf(lang), { dateStyle: 'medium', timeStyle: 'short', timeZone: 'America/Mexico_City' }).format(new Date(builtAt))}</time>
+        · {t(lang, 'data.source')}
+      </span>
+    </div>
+
+    <div
+      id="standings"
+      data-conf-view="ALL"
+      data-labels={JSON.stringify(labels)}
+      data-locale={localeOf(lang)}
+      data-error={t(lang, 'data.error')}
+    >
+      {standings ? <Fragment set:html={standingsHtml(standings, labels)} /> : <p class="notice">{t(lang, 'data.error')}</p>}
+    </div>
+  </div>
+</Base>
+
+<script>
+  import { fetchStandings } from '../../lib/espn';
+  import { standingsHtml } from '../../lib/render';
+
+  const box = document.getElementById('standings')!;
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-conf-btn]');
+  buttons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      box.dataset.confView = btn.dataset.confBtn;
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+    }),
+  );
+
+  const stamp = document.querySelector<HTMLTimeElement>('[data-updated]');
+  fetchStandings()
+    .then((s) => {
+      if (!s.conferences.length) return;
+      box.innerHTML = standingsHtml(s, JSON.parse(box.dataset.labels!));
+      if (stamp) {
+        const now = new Date();
+        stamp.dateTime = now.toISOString();
+        stamp.textContent = new Intl.DateTimeFormat(box.dataset.locale, { dateStyle: 'medium', timeStyle: 'short' }).format(now);
+      }
+    })
+    .catch(() => {
+      /* keep the build-time snapshot */
+    });
+</script>

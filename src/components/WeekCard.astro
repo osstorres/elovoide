@@ -1,0 +1,26 @@
+---
+import { resolvePicks, splitId, type PickEntry } from '../lib/content';
+import { recordText } from '../lib/results';
+import { localeOf, t, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; entry: PickEntry }
+const { lang, entry } = Astro.props;
+const { record } = await resolvePicks(entry);
+const decided = record.win + record.loss + record.push;
+---
+<a class="card week-card" href={`/${lang}/picks/${splitId(entry.id).slug}`}>
+  <div class="row">
+    <span class="badge badge-final">{t(lang, 'picks.week')} {entry.data.week} · {entry.data.season}</span>
+    {decided > 0 ? (
+      <span class={`badge ${record.win >= record.loss ? 'badge-win' : 'badge-loss'}`}>{t(lang, 'picks.record')} {recordText(record)}</span>
+    ) : (
+      <span class="badge badge-pending">{t(lang, 'picks.pending')}</span>
+    )}
+  </div>
+  <h3>{entry.data.title}</h3>
+  <p>{entry.data.summary}</p>
+  <span class="muted">
+    {new Intl.DateTimeFormat(localeOf(lang), { dateStyle: 'long', timeZone: 'UTC' }).format(entry.data.published)}
+    · {entry.data.games.length} picks
+  </span>
+</a>

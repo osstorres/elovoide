@@ -1,0 +1,20 @@
+# Survivor: one entry per week. `outcome` is optional — leave it out and the build
+# resolves it from the final score (win / loss / push / pending).
+- id: 2026-w01
+  season: 2026
+  week: 1
+  team: JAX
+  opponent: CLE
+  home: true
+  why:
+    es: Jaguars en casa contra unos Browns en reconstrucción; la opción más cómoda para arrancar sin quemar a un favorito grande.
+    en: Jaguars at home against a rebuilding Browns team; the comfiest way to start without burning a big favorite.
+- id: 2026-w02
+  season: 2026
+  week: 2
+  team: SF
+  opponent: MIA
+  home: true
+  why:
+    es: Los 49ers son favoritos por 12.5 en casa y vienen de ganarle 27-7 a los Rams; Miami perdió 27-13 en Las Vegas.
+    en: The 49ers are 12.5-point home favorites after a 27-7 win over the Rams; Miami lost 27-13 in Las Vegas.
