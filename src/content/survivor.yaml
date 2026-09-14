@@ -3,12 +3,12 @@
 - id: 2026-w01
   season: 2026
   week: 1
-  team: JAX
-  opponent: CLE
+  team: PIT
+  opponent: ATL
   home: true
   why:
-    es: Jaguars en casa contra unos Browns en reconstrucción; la opción más cómoda para arrancar sin quemar a un favorito grande.
-    en: Jaguars at home against a rebuilding Browns team; the comfiest way to start without burning a big favorite.
+    es: Steelers en casa ante los Falcons para abrir la temporada.
+    en: Steelers at home against the Falcons to open the season.
 - id: 2026-w02
   season: 2026
   week: 2
