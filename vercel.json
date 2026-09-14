@@ -8,7 +8,9 @@
   "redirects": [
     { "source": "/", "destination": "/es", "permanent": false },
     { "source": "/en", "destination": "/es", "permanent": true },
-    { "source": "/en/:path*", "destination": "/es/:path*", "permanent": true }
+    { "source": "/en/:path*", "destination": "/es/:path*", "permanent": true },
+    { "source": "/es/picks", "destination": "/es/pronosticos", "permanent": true },
+    { "source": "/es/picks/:path*", "destination": "/es/pronosticos/:path*", "permanent": true }
   ],
   "headers": [
     {

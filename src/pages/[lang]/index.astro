@@ -43,7 +43,7 @@ const lastSurvivor = survivor.rows.at(-1);
     <section class="section">
       <div class="section-head">
         <h2>{t(lang, 'home.latestPicks')}</h2>
-        <a href={`/${lang}/picks`}>{t(lang, 'nav.picks')} →</a>
+        <a href={`/${lang}/pronosticos`}>{t(lang, 'nav.picks')} →</a>
       </div>
       <div class="grid">
         {picks.slice(0, 2).map((entry) => <WeekCard lang={lang} entry={entry} />)}
