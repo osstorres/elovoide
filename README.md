@@ -55,6 +55,12 @@ Texto de introducción de la semana (Markdown).
 El resultado (acierto/fallo) se resuelve solo con el marcador final **en el siguiente deploy**. Para
 refrescarlo después de los partidos, basta con cualquier push o un *Redeploy* desde Vercel.
 
+### Reporte de lesiones
+
+Un archivo por semana en `src/content/injuries/2026-w03.md` con, por partido, notas cortas de cada equipo
+(`awayNotes` / `homeNotes`; vacío = sin lesiones importantes) y una `note` opcional. Para sacarlo de un
+video de YouTube hay un script en [`scripts/`](scripts/README.md).
+
 ### Survivor
 
 Agrega una entrada en `src/content/survivor.yaml`:

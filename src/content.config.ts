@@ -76,4 +76,33 @@ const memes = defineCollection({
     }),
 });
 
-export const collections = { picks, survivor, memes };
+/**
+ * Injury report before each week. One Markdown file per week:
+ *   src/content/injuries/2026-w01.md
+ * Written by hand from a video transcript (see scripts/README.md).
+ * `away` / `home` hold short notes for each team; leave empty for a healthy team.
+ */
+const injuries = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/injuries' }),
+  schema: z.object({
+    title: z.string(),
+    season: z.number().int(),
+    week: z.number().int().min(1).max(22),
+    published: z.coerce.date(),
+    draft: z.boolean().default(false),
+    source: z.object({ name: z.string(), url: z.string().url() }).optional(),
+    games: z
+      .array(
+        z.object({
+          away: teamAbbr,
+          home: teamAbbr,
+          awayNotes: z.array(z.string()).default([]),
+          homeNotes: z.array(z.string()).default([]),
+          note: z.string().optional(),
+        }),
+      )
+      .default([]),
+  }),
+});
+
+export const collections = { picks, survivor, memes, injuries };
