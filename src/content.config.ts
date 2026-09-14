@@ -30,7 +30,7 @@ const picks = defineCollection({
           pick: teamAbbr,
           spread: z.string().optional(),
           confidence: z.number().int().min(1).max(5).default(3),
-          analysis: z.string(),
+          analysis: z.string().optional(),
           context: z.string().optional(),
           data: z.array(z.string()).default([]),
           // Leave `result` out and the build fills it from the final score.
@@ -57,7 +57,7 @@ const survivor = defineCollection({
     team: teamAbbr,
     opponent: teamAbbr,
     home: z.boolean().default(true),
-    why: z.string(),
+    why: z.string().optional(),
     // Leave out to auto-resolve from the final score.
     outcome: outcome.optional(),
   }),

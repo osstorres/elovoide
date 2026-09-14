@@ -8,9 +8,9 @@ const { lang, entry } = Astro.props;
 const { record } = await resolvePicks(entry);
 const decided = record.win + record.loss + record.push;
 ---
-<a class="card week-card" href={`/${lang}/picks/${splitId(entry.id).slug}`}>
+<a class="week-card" href={`/${lang}/picks/${splitId(entry.id).slug}`}>
   <div class="row">
-    <span class="badge badge-final">{t(lang, 'picks.week')} {entry.data.week} · {entry.data.season}</span>
+    <span class="badge">{t(lang, 'picks.week')} {entry.data.week} · {entry.data.season}</span>
     {decided > 0 ? (
       <span class={`badge ${record.win >= record.loss ? 'badge-win' : 'badge-loss'}`}>{t(lang, 'picks.record')} {recordText(record)}</span>
     ) : (

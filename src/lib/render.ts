@@ -34,7 +34,7 @@ export function standingsHtml(s: Standings, L: StandingsLabels): string {
   ${conf.divisions
     .map(
       (div) => `
-    <div class="card table-card">
+    <div class="table-card">
       <h3 class="div-title">${esc(divisionName(div.name, L))}</h3>
       <div class="table-wrap">
       <table class="standings">
@@ -112,7 +112,7 @@ export function scoresHtml(sb: Scoreboard, L: ScoresLabels): string {
             ? `<span class="badge badge-live">${esc(L.live)} · ${esc(g.detail)}</span>`
             : `<span class="badge">${esc(timeFmt.format(new Date(g.date)))}</span>`;
       return `
-    <article class="card game">
+    <article class="game">
       <header class="game-head">${status}${g.broadcast ? `<span class="muted">${esc(g.broadcast)}</span>` : ''}</header>
       ${teamLine(g.away, g)}
       ${teamLine(g.home, g)}

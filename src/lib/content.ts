@@ -21,7 +21,7 @@ export interface ResolvedGame {
   pick: string;
   spread?: string;
   confidence: number;
-  analysis: string;
+  analysis?: string;
   context?: string;
   data: string[];
   awayScore: number | null;

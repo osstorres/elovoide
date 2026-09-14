@@ -40,9 +40,8 @@ games:
     home: BUF
     pick: BUF
     spread: 'BUF -2.5'  # opcional
-    confidence: 4       # 1–5
-    analysis: 'Por qué elegimos este pick.'
-    context: 'Lesiones, clima, racha…'  # opcional
+    analysis: 'Por qué elegimos este pick.'  # opcional; si falta se muestra «Análisis próximamente.»
+    context: 'Lesiones, clima, racha…'      # opcional
     data:
       - 'Dato clave 1'
       - 'Dato clave 2'
@@ -67,7 +66,7 @@ Agrega una entrada en `src/content/survivor.yaml`:
   team: BAL
   opponent: CLE
   home: true
-  why: Por qué elegimos este equipo.
+  why: Por qué elegimos este equipo.   # opcional
   # outcome: win | loss | push   (opcional; si no, se calcula solo)
 ```
 
