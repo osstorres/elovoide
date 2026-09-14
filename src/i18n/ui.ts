@@ -71,6 +71,8 @@ export const ui = {
     'picks.spread': 'Línea',
     'picks.readMore': 'Leer análisis',
     'picks.empty': 'Aún no hay pronósticos publicados.',
+    'picks.comingSoon': 'Próximamente',
+    'picks.comingSoonBody': 'Los pronósticos de esta semana todavía no están listos.',
     'picks.back': 'Todos los pronósticos',
     'picks.weekRecord': 'Récord de la semana',
     'injuries.title': 'Reporte de lesiones',
