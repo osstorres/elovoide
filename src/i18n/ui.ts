@@ -13,7 +13,7 @@ export const ui = {
     'nav.survivor': 'Survivor',
     'nav.memes': 'Memes',
     'nav.menu': 'Menú',
-    'home.hero.title': 'Todo lo que rebota en la NFL',
+    'home.hero.title': 'El Ovoide',
     'home.hero.body':
       'Pronósticos semanales con análisis y datos, nuestro camino en el Survivor, posiciones y resultados al día, y los memes que dejó la jornada.',
     'home.cta.picks': 'Ver pronósticos',
