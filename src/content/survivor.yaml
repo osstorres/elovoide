@@ -7,3 +7,10 @@
   opponent: ATL
   home: true
   why: 'Atlanta lleva décadas sin ganar en Pittsburgh y además juega con su QB suplente.'
+- id: 2026-w02
+  season: 2026
+  week: 2
+  team: TB
+  opponent: CLE
+  home: true
+  why: 'El vestuario de Cleveland está roto: a un jugador le preguntaron si Deshaun Watson debería ser el QB y dijo que esa decisión estaba por encima de él. Si Baker Mayfield no la riega, Tampa debería ganar fácil.'
